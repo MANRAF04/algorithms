@@ -18,15 +18,11 @@ pub fn tallest(array: Vec<Vec<i8>>) -> i32 {
         }
 
         if curr == -1 {
-            if col >= 0 {
-                break;
-            }
-
             top = mid + 1;
         } else {
             bot = mid;
         }
-    }
+    } 
     col
 }
 
@@ -79,10 +75,15 @@ mod tests {
 
 fn main() {
     let array = vec![
-        // vec![1, 1, 1, 1, 0],
+        vec![1, 1, 1, 1, 1],
+        vec![1, 1, 1, 1, 1],
+        vec![1, 1, 1, 1, 1],
+        vec![1, 1, 1, 1, 0],
         vec![1, 1, 1, 1, 0],
         vec![0, 1, 1, 1, 0],
         vec![0, 1, 0, 1, 0],
+        vec![0, 0, 0, 0, 0],
+        vec![0, 0, 0, 0, 0],
         vec![0, 0, 0, 0, 0],
         vec![0, 0, 0, 0, 0],
     ];
