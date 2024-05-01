@@ -1,3 +1,4 @@
+#include <fstream>
 #include <iostream>
 #include <list>
 #include <queue>
@@ -16,8 +17,21 @@ public:
   }
 
   void addEdge(int u, int v) {
+    // Add edge in both directions for non-directed graph
+    cout << u << " " << v << endl;
     adjList[u].push_back(v);
-    adjList[v].push_back(u);    // Add edge in both directions for non-directed graph
+    adjList[v].push_back(u);
+  }
+
+  void printGraph() {
+    cout << "Adjacency List:" << endl;
+    for (int i = 0; i < V; i++) {
+      cout << "Vertex " << i << ": ";
+      for (int neighbor : adjList[i]) {
+        cout << neighbor << " ";
+      }
+      cout << endl;
+    }
   }
 
   bool isConnected() {
@@ -53,9 +67,10 @@ public:
     }
   }
 
-  void BFS(int start, int end) {
+  int BFS(int start, int end) {
     vector<bool> visited(V, false);
     vector<int> parent(V, -1);
+    int length = 0;
 
     queue<int> q;
     q.push(start);
@@ -67,14 +82,15 @@ public:
 
       if (u == end) {
         // Path found, backtrack to reconstruct
-        cout << "Shortest Path: ";
+        // cout << "Shortest Path: ";
         int v = u;
         while (v != -1) {
-          cout << v << " -> ";
+          // cout << v << " -> ";
           v = parent[v];
+          length++;
         }
-        cout << endl;
-        return;
+        // cout << endl;
+        return length;
       }
 
       for (int neighbor : adjList[u]) {
@@ -87,28 +103,44 @@ public:
     }
 
     cout << "No path found between " << start << " and " << end << endl;
+    return -1;
   }
 };
 
-int main() {
-  int V = 6;
-  Graph g(V);
-  g.addEdge(0, 1);
-  g.addEdge(0, 2);
-  g.addEdge(1, 2);
-  g.addEdge(1, 3);
-  g.addEdge(2, 4);
-  // Comment out the line below to create a disconnected graph
-  // g.addEdge(3, 4);
-  // g.addEdge(3, 5);
+int main(int argc, char **argv) {
+  Graph g(1);
 
-  if (g.isConnected()) {
-    cout << "The graph is connected" << endl;
-  } else {
-    cout << "The graph is not connected" << endl;
+  if (argc != 2) {
+    cout << "Wrong number of arguements!\n./main [edgefile]\n";
+    return 1;
   }
+  ifstream inputFile("/home/manraf/Desktop/HMMY/algorithms/project/src/" +
+                     string(argv[1]));
+  int u, v;
+  int maxVertex = 0;
+  while (inputFile >> u >> v) {
+    // cout << u << " " << v << endl;
+    maxVertex = max(maxVertex, max(u, v));
+  }
+  g.V = maxVertex;
+  g.adjList.resize(g.V);
 
-  g.BFS(0, 5);
+  inputFile.clear();
+  inputFile.seekg(0, ios::beg);
+
+  while (inputFile >> u >> v) {
+    g.addEdge(static_cast<int>(u) - 1, static_cast<int>(v) - 1);
+  }
+  inputFile.close();
+
+  g.printGraph();
+  // if (g.isConnected()) {
+  //   cout << "The graph is connected" << endl;
+  // } else {
+  //   cout << "The graph is not connected" << endl;
+  // }
+
+  // cout << "Lenght is:\t" << g.BFS(1, 4) << endl;
 
   return 0;
 }
