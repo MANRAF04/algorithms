@@ -17,8 +17,4 @@ def max_gain(i, gain, j):
     return gain
 gain = 0    
 gain = max_gain(0, gain, 4)
-#schedule = schedule_flights(gains)
 print("Optimal Flight Schedule:", gain)
-
-# This will print something like:
-# Optimal Flight Schedule: [(1, 3), (2, 2)]
