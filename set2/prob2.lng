@@ -1,3 +1,6 @@
+! Names:    Balamotis Panagiotis    Raftopoulos Emmanouil;
+! AEM:      03726                  03735;
+ 
 MIN = 50*X12 + 20*X14 + 10*X45 + 40*X43 + 50*X53 + 30*X25 + 40*X23;
 	
 	X23 + X43 + X53 = 6;
